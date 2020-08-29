@@ -40,5 +40,13 @@ public:
 			bodyParts.pop_back();
 		}
 	}
+
+	inline bool isHead(const SnakeBody& body) const
+	{
+		assert(!bodyParts.empty());
+		return &bodyParts.front() == &body;
+	}
+
+	bool isHeadInsideAnotherSnake(const Snake& anotherSnake) const;
 };
 

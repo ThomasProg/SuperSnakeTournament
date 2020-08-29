@@ -49,10 +49,27 @@ void Game::run()
 				shouldClose = true;
 			}
 
-			snake.inputs(event);
+			if (event.type == SDL_KEYDOWN)
+			{
+				if (event.key.keysym.scancode == SDL_SCANCODE_R)
+				{
+					if (snake == nullptr)
+					{
+						snake = std::make_unique<Snake>();
+					}
+				}
+			}
+
+			if (snake)
+			{
+				snake->inputs(event);
+			}
 		}
 
-		snake.draw(app);
+		if (snake)
+		{
+			snake->draw(app);
+		}
 		for (std::unique_ptr<Item>& item : items)
 		{
 			if (item)
@@ -66,8 +83,15 @@ void Game::run()
 		if (time > updateDelay + lastUpdateTime)
 		{
 			lastUpdateTime = SDL_GetTicks();
-			snake.update();
-			checkSnakeItemsCollision(snake);
+			if (snake)
+			{
+				snake->update();
+				checkSnakeItemsCollision(*snake);
+				if (isSnakeInWall(*snake) || isSnakeHeadInSnake(*snake))
+				{
+					snake.release();
+				}
+			}
 		}
 
 		SDL_RenderPresent(app.renderer);
@@ -92,4 +116,17 @@ void Game::checkSnakeItemsCollision(Snake& snake)
 		apple->consume(snake);
 		apple.release();
 	}
+}
+
+bool Game::isSnakeInWall(const Snake& snake)
+{
+	const Vec2Int headLoc = snake.getHeadLocation();
+	return headLoc.x < 0 || headLoc.y < 0
+		|| headLoc.x * app.scale > width
+		|| headLoc.y * app.scale > height;
+}
+
+bool Game::isSnakeHeadInSnake(const Snake& snake)
+{
+	return snake.isHeadInsideAnotherSnake(snake);
 }

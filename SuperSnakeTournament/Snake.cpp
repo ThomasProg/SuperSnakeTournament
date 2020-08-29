@@ -4,7 +4,7 @@
 
 Snake::Snake()
 {
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 10; i++)
 	{
 		bodyParts.emplace_back();
 	}
@@ -64,4 +64,18 @@ void Snake::inputs(const SDL_Event& event)
 			break;
 		}
 	}
+}
+
+bool Snake::isHeadInsideAnotherSnake(const Snake& anotherSnake) const
+{
+	for (const SnakeBody& bodyPart : anotherSnake.bodyParts)
+	{
+		if (getHeadLocation() == bodyPart.location 
+			&& !isHead(bodyPart))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
