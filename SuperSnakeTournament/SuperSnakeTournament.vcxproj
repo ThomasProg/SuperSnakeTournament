@@ -134,10 +134,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemReduceLife.cpp" />
+    <ClCompile Include="ItemType.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SdlApp.cpp" />
+    <ClCompile Include="SlowDownItem.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeBody.cpp" />
+    <ClCompile Include="SpeedUpItem.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="Vec2Int.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +150,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="ItemReduceLife.h" />
+    <ClInclude Include="ItemType.h" />
     <ClInclude Include="SdlApp.h" />
+    <ClInclude Include="SlowDownItem.h" />
     <ClInclude Include="Snake.h" />
     <ClInclude Include="SnakeBody.h" />
+    <ClInclude Include="SpeedUpItem.h" />
+    <ClInclude Include="TimeManager.h" />
     <ClInclude Include="Vec2Int.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Vec2Int.h"
 #include "Item.h"
 
-struct Apple final : public Item
+class SpeedUpItem final : public Item
 {
 public:
-	inline Apple(Vec2Int loc)
+	inline SpeedUpItem(Vec2Int loc)
 		: Item(loc)
 	{
 
@@ -14,6 +13,5 @@ public:
 
 	void consume(Snake& snake) override final;
 	void draw(SdlApp& app) override final;
-
 };
 

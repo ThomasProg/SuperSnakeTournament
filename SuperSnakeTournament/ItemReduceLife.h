@@ -2,7 +2,7 @@
 
 #include "Item.h"
 
-class ItemReduceLife : public Item
+class ItemReduceLife final : public Item
 {
 public:
 	inline ItemReduceLife(Vec2Int loc)

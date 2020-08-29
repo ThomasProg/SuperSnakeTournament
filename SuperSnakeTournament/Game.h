@@ -3,6 +3,7 @@
 #include "Snake.h"
 #include "Item.h"
 #include "SdlApp.h"	   
+#include "TimeManager.h"
 
 #include <SDL2/SDL.h>
 
@@ -18,10 +19,7 @@ private:
 
 	bool shouldClose = false;
 
-	// in ms
-	Uint32 time = 0;
-	Uint32 lastUpdateTime = 0;
-	Uint32 updateDelay = 100;
+	TimeManager timeManager;
 
 	std::unique_ptr<Snake> snake = std::make_unique<Snake>();
 	
@@ -35,6 +33,10 @@ public:
 
 	void run();
 
+	void inputs(const SDL_Event& event);
+	void update();
+	void draw();
+
 	void checkSnakeItemsCollision(Snake& snake);
 	bool isSnakeInWall(const Snake& snake);
 	bool isSnakeHeadInSnake(const Snake& snake);
@@ -44,5 +46,15 @@ public:
 	{
 		items[location.x + location.y * nbCasesX] = std::make_unique<ITEM_TYPE>(location);
 	}
+
+	template<typename ITEM_TYPE>
+	inline void addItemAtRandomLocation()
+	{
+		assert(nbCasesX > 0 && nbCasesY > 0);
+		Vec2Int randomLocation = {std::rand() % nbCasesX, std::rand() % nbCasesY};
+		addItem<ITEM_TYPE>(randomLocation);
+	}
+
+	void addRandomItemAtRandomLocation();
 };
 

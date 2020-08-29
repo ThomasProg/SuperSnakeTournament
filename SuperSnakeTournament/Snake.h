@@ -8,6 +8,7 @@
 #include <cassert>
 
 struct SdlApp;
+struct TimeManager;
 
 class Snake
 {
@@ -15,10 +16,18 @@ private:
 	std::vector<SnakeBody> bodyParts;
 	Vec2Int direction = {1, 0};
 
+	// in ms
+	Uint32 lastUpdateTime = 0;
+	Uint32 updateDelay = 100;
+	Uint32 maxUpdateDelay = 150;
+	Uint32 minUpdateDelay = 30;
+	
+
 public:
 	Snake();
 
-	void update();
+	// Returns success if update is successful
+	bool update(const TimeManager& timeManager);
 	void draw(SdlApp& app);
 	void inputs(const SDL_Event& event);
 
@@ -45,6 +54,26 @@ public:
 	{
 		assert(!bodyParts.empty());
 		return &bodyParts.front() == &body;
+	}
+
+	inline void slowDown()
+	{
+		updateDelay += 10;
+
+		if (updateDelay > maxUpdateDelay)
+		{
+			updateDelay = maxUpdateDelay;
+		}
+	}
+
+	inline void speedUp()
+	{
+		updateDelay -= 10;
+
+		if (updateDelay < minUpdateDelay)
+		{
+			updateDelay = minUpdateDelay;
+		}
 	}
 
 	bool isHeadInsideAnotherSnake(const Snake& anotherSnake) const;

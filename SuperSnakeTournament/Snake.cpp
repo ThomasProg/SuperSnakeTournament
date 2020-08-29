@@ -1,6 +1,7 @@
 #include "Snake.h"
 #include "SdlApp.h"
-#include "Color.h"
+#include "Color.h"			 
+#include "TimeManager.h"
 
 Snake::Snake()
 {
@@ -20,25 +21,34 @@ void Snake::draw(SdlApp& app)
 	}
 }
 
-void Snake::update()
+bool Snake::update(const TimeManager& timeManager)
 {
-	if (!bodyParts.empty())
+	if (timeManager.time > updateDelay + lastUpdateTime)
 	{
-		std::vector<SnakeBody>::iterator it = bodyParts.begin();
-		Vec2Int lastLoc = it->location;
-		it->location += direction;
-		
-		++it;
+		lastUpdateTime = SDL_GetTicks();
 
-		while (it != bodyParts.end())
+		if (!bodyParts.empty())
 		{
-			Vec2Int temp = it->location;
-			it->location = lastLoc;
-			lastLoc = temp;
+			std::vector<SnakeBody>::iterator it = bodyParts.begin();
+			Vec2Int lastLoc = it->location;
+			it->location += direction;
 
 			++it;
+
+			while (it != bodyParts.end())
+			{
+				Vec2Int temp = it->location;
+				it->location = lastLoc;
+				lastLoc = temp;
+
+				++it;
+			}
+
+			return true;
 		}
 	}
+
+	return false;
 }
 
 void Snake::inputs(const SDL_Event& event)
