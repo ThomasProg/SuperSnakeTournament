@@ -1,4 +1,6 @@
 #include "Game.h"
+#include "Apple.h"
+#include "ItemReduceLife.h"
 
 #include <iostream>
 
@@ -7,16 +9,30 @@ Game::Game()
 	if (SDL_Init(SDL_INIT_VIDEO) == -1)
 	{
 		std::cout << "SDL error : " << SDL_GetError() << std::endl;
+		shouldClose = true;
 		return;
 	}
 
 	SDL_CreateWindowAndRenderer(width, height, SDL_WINDOW_SHOWN, &app.window, &app.renderer);
+
+	nbCasesX = static_cast<int> (width / app.scale);
+	nbCasesY = static_cast<int> (height / app.scale);
+	items.resize(nbCasesX * nbCasesY);
+
+	addItem<Apple>({3,2});
+	addItem<ItemReduceLife>({ 9,5 });
 }	
 
 Game::~Game()
 {
-	SDL_DestroyRenderer(app.renderer);
-	SDL_DestroyWindow(app.window);
+	if (app.renderer != nullptr)
+	{
+		SDL_DestroyRenderer(app.renderer);
+	}
+	if (app.window != nullptr)
+	{
+		SDL_DestroyWindow(app.window);
+	}
 
 	SDL_Quit();
 }
@@ -37,6 +53,13 @@ void Game::run()
 		}
 
 		snake.draw(app);
+		for (std::unique_ptr<Item>& item : items)
+		{
+			if (item)
+			{
+				item->draw(app);
+			}
+		}
 
 		time = SDL_GetTicks();
 
@@ -44,11 +67,29 @@ void Game::run()
 		{
 			lastUpdateTime = SDL_GetTicks();
 			snake.update();
+			checkSnakeItemsCollision(snake);
 		}
 
 		SDL_RenderPresent(app.renderer);
 		SDL_SetRenderDrawColor(app.renderer, 0, 0, 0, 255);
 		SDL_RenderClear(app.renderer);
 		SDL_Delay(1);
+	}
+}
+
+void Game::checkSnakeItemsCollision(Snake& snake)
+{
+	Vec2Int headLoc = snake.getHeadLocation();
+	int index = headLoc.x + headLoc.y * nbCasesX;
+	if (index < 0 || index > (nbCasesX - 1) * (nbCasesY - 1))
+	{
+		return;
+	}
+
+	std::unique_ptr<Item>& apple = items[headLoc.x + headLoc.y * nbCasesX];
+	if (apple)
+	{
+		apple->consume(snake);
+		apple.release();
 	}
 }

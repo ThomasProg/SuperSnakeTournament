@@ -2,15 +2,43 @@
 #include "SdlApp.h"
 #include "Color.h"
 
+Snake::Snake()
+{
+	for (int i = 0; i < 1; i++)
+	{
+		bodyParts.emplace_back();
+	}
+
+	bodyParts.front().location = { 0,0 };
+}
+
 void Snake::draw(SdlApp& app)
 {
-	SDL_Rect rect{ headLocation.x, headLocation.y, 1, 1 };
-	app.drawRectangle(Color::green(), rect);
+	for (SnakeBody& body : bodyParts)
+	{
+		body.draw(app);
+	}
 }
 
 void Snake::update()
 {
-	headLocation += direction;
+	if (!bodyParts.empty())
+	{
+		std::vector<SnakeBody>::iterator it = bodyParts.begin();
+		Vec2Int lastLoc = it->location;
+		it->location += direction;
+		
+		++it;
+
+		while (it != bodyParts.end())
+		{
+			Vec2Int temp = it->location;
+			it->location = lastLoc;
+			lastLoc = temp;
+
+			++it;
+		}
+	}
 }
 
 void Snake::inputs(const SDL_Event& event)

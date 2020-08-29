@@ -129,18 +129,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Apple.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemReduceLife.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SdlApp.cpp" />
     <ClCompile Include="Snake.cpp" />
+    <ClCompile Include="SnakeBody.cpp" />
     <ClCompile Include="Vec2Int.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemReduceLife.h" />
     <ClInclude Include="SdlApp.h" />
     <ClInclude Include="Snake.h" />
+    <ClInclude Include="SnakeBody.h" />
     <ClInclude Include="Vec2Int.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

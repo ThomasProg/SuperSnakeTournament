@@ -1,4 +1,6 @@
-﻿  Game.cpp
+﻿  Apple.cpp
+  Game.cpp
+  ItemReduceLife.cpp
   main.cpp
   Snake.cpp
   Generating Code...
