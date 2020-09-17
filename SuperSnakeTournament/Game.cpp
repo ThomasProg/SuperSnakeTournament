@@ -24,6 +24,8 @@ Game::Game()
 	// Init srand
 	std::srand(std::time(0));
 
+	loadTextures();
+
 	// Init Snake Game
 	nbCasesX = static_cast<int> (width / app.scale);
 	nbCasesY = static_cast<int> (height / app.scale);
@@ -47,6 +49,14 @@ Game::~Game()
 	}
 
 	SDL_Quit();
+}
+
+void Game::loadTextures()
+{
+	app.textureManager->addTexture("../ressources/Apple.png", ItemType::Apple);
+	app.textureManager->addTexture("../ressources/ReduceLife.png", ItemType::ItemReduceLife);
+	app.textureManager->addTexture("../ressources/SlowDown.png", ItemType::SlowDownItem);
+	app.textureManager->addTexture("../ressources/SpeedUp.png", ItemType::SpeedUpItem);
 }
 
 void Game::run()

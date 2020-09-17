@@ -10,5 +10,9 @@ void ItemReduceLife::consume(Snake& snake)
 
 void ItemReduceLife::draw(SdlApp& app)
 {
-	app.drawRectangle(Color::blue(), SDL_Rect{ location.x,location.y,1,1 });
+	SDL_Texture* texture = app.textureManager->getTexture(ItemType::ItemReduceLife);
+	if (texture != nullptr)
+	{
+		app.drawTexture(texture, NULL, SDL_Rect{ location.x,location.y,1,1 });
+	}
 }

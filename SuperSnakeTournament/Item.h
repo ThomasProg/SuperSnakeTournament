@@ -2,6 +2,8 @@
 		 
 #include "Vec2Int.h"
 
+#include "ItemType.h"
+
 class Snake;
 struct SdlApp;
 
@@ -9,6 +11,7 @@ class Item
 {
 protected:
 	Vec2Int location;
+	struct SDL_Texture* texture;
 
 public:
 	inline Item(Vec2Int loc)

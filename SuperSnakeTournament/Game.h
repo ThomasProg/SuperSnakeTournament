@@ -31,6 +31,8 @@ public:
 	Game();
 	~Game();
 
+	void loadTextures();
+
 	void run();
 
 	void inputs(const SDL_Event& event);

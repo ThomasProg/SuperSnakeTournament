@@ -10,5 +10,9 @@ void SpeedUpItem::consume(Snake& snake)
 
 void SpeedUpItem::draw(SdlApp& app)
 {
-	app.drawRectangle(Color::green(), SDL_Rect{ location.x,location.y,1,1 });
+	SDL_Texture* texture = app.textureManager->getTexture(ItemType::SpeedUpItem);
+	if (texture != nullptr)
+	{
+		app.drawTexture(texture, NULL, SDL_Rect{ location.x,location.y,1,1 });
+	}
 }

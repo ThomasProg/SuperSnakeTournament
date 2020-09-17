@@ -14,6 +14,5 @@ public:
 
 	void consume(Snake& snake) override final;
 	void draw(SdlApp& app) override final;
-
 };
 
